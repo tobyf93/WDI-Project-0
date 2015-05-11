@@ -1,0 +1,28 @@
+#game {
+	height: 600px;
+	width: 960px;
+	margin: 25px auto 0;
+	border: 1px solid black;
+}
+
+#board {
+	height: 500px;
+	width: 500px;
+	margin: 0 auto;
+	/*border: 1px solid black;*/
+	/*position: relative;
+	top: 200px;*/
+}
+
+.cell {
+	height: 160px;
+	width: 160px;
+	border: 2px solid black;
+	display: inline-block;
+	vertical-align: top;
+	line-height: 162px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 4em;
+	margin-bottom: 5px;
+}
