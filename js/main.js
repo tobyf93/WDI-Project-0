@@ -63,6 +63,41 @@ app.complete.col = function(col) {
 	return true;
 };
 
+// Returns true if diagonal is complete.  The reason for passing a coordStr
+// rather than an array of coords is due to the use of indexOf - you can't pass
+// an array into indexOf and expect to get anything useful back.
+app.complete.diag = function(board, coordStr) {
+	var diag1 = ['00', '11', '22'];
+	var diag2 = ['02', '11', '20'];
+	var testBoth = false;
+
+	var testDiag = function(diag) {
+		var firstEl = diag[0];
+		var compareVal = board[firstEl[0]][firstEl[1]];
+
+		for (var i = 1; i < diag.length; i++) {
+			var thisEl = diag[i];
+			var val = board[thisEl[0]][thisEl[1]];
+
+			if (val !== compareVal) {
+				return false;
+			}
+		}
+
+		return true;
+	};
+
+	// If coordStr references the center cell both diagonals will need to be tested
+	if (coordStr[0] === 1 && coordStr[1] === 1) {
+		if (testDiag(diag1))return true;
+		if (testDiag(diag2))return true;
+	}
+
+	// Check whatever diagonal path coordStr belongs to
+	if (diag1.indexOf(coordStr) >= 0)return testDiag(diag1);
+	if (diag2.indexOf(coordStr) >= 0)return testDiag(diag2);
+};
+
 
 // Checks game board for a win/draw/loss situation.  lastMove is passed into
 // the function to ensure the check is made with max efficiency.
@@ -72,17 +107,33 @@ app.checkGameState = function(board, lastMove) {
 	}
 
 	if (this.complete.row(board[lastMove.row])) {
-		console.log('winner');
+		console.log('winner by row');
+		return 1;
 	}
 
+	// Create an array of elements in column
 	var col = [
 		board[0][lastMove.col],
 		board[1][lastMove.col],
 		board[2][lastMove.col]
 	];
+
 	if (this.complete.col(col)) {
-		console.log('winner');
+		console.log('winner by col');
+		return 1;
 	}
+
+	// If the sum of row and col is even it is on a diagonal path
+	var coordSum = lastMove.row + lastMove.col;
+
+	var coordStr = lastMove.row + lastMove.col;
+	if (coordSum % 2 === 0 && this.complete.diag(board, coordStr)) {
+		console.log('winner by diag');
+		return 1;
+	}
+
+	// Indicates that there is no result thus far
+	return undefined;
 };
 
 app.makeMove = function() {
