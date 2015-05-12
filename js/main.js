@@ -151,6 +151,10 @@ app.checkGameState = function(board, lastMove) {
 	return undefined;
 };
 
+app.switchPlayer = function() {
+	this.currentMove = (this.currentMove === 'X') ? 'O' : 'X';
+};
+
 app.makeMove = function() {
 	var $this = $(this);
 	var row = $this.parent().attr('data-row');
@@ -183,12 +187,12 @@ app.makeMove = function() {
 	// If 1 player game and player has made move, call the computer to make
 	// its move.
 	if (app.enableAI && app.currentMove === app.PLAYER) {
-		app.currentMove = (app.currentMove === 'X') ? 'O' : 'X';
+		app.switchPlayer();
 		AI.makeMove();
 	} 
 	// Otherwise pass currentMove over to other player
 	else {
-		app.currentMove = (app.currentMove === 'X') ? 'O' : 'X';
+		app.switchPlayer();
 	}
 };
 

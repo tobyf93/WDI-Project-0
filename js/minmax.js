@@ -41,40 +41,46 @@ AI.minmax = function(board) {
 	var scores = [];
 	var moves = [];
 
-	console.log(app.board);
 	// If moves still available recurse
-	var availableMoves = this.getAvailableMoves();
+	var availableMoves = this.getAvailableMoves(board);
 	console.log(availableMoves.length);
 	for (var i = 0; i < availableMoves.length; i++) {
-		var $element = $(availableMoves[i]);
+		var coord = availableMoves[i];
+		var row = coord[0];
+		var col = coord[1];
 		var possibleBoard = app.board;
-		var row = $element.parent().attr('data-row');
-		var col = $element.attr('data-col');
 
-		// possibleBoard[row][col] = app.currentMove;
-
-		//scores.push(AI.minmax(possibleBoard));
-		// moves.push(row+col);
+		possibleBoard[row][col] = app.currentMove;
+		scores.push(AI.minmax(possibleBoard));
+		moves.push(coord);
 	}
 
-	availableMoves.each(function() {
-		
-	});
+
+	if (app.currentMove === app.PLAYER) {
+
+	}
 
 	return 1;
 };
 
-AI.getAvailableMoves = function() {
-	return $('.cell:empty');
+AI.getAvailableMoves = function(board) {
+	var result = [];
+
+	for (var row = 0; row < 3; row++) {
+		for (var col = 0; col < 3; col++) {
+			if (board[row][col] === '') {
+				result.push(row+''+col);
+			}
+		}
+	}
+
+	return result;
 };
 
 AI.makeMove = function() {
-	var $emptyCells = this.getAvailableMoves();
-	var emptyCells = $emptyCells.length;
-
 	// Play dumb
-	var i = Math.random() * (emptyCells - 1);
-	i = Math.round(i);
+	// var i = Math.random() * (emptyCells - 1);
+	// i = Math.round(i);
 
 	this.minmax(app.board);
 
@@ -82,6 +88,6 @@ AI.makeMove = function() {
 	// the empty element that was selected at random and ensure 'this' references
 	// the new element.  Without binding app.makeMove will think 'this' refers
 	// to the app object.
-	app.makeMove.bind( $emptyCells[i] )();
+	//app.makeMove.bind( $emptyCells[i] )();
 };
 
