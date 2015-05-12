@@ -163,7 +163,15 @@ app.makeMove = function() {
 	// Increment player moves
 	app.moves[app.currentMove]++;
 
-	app.checkGameState(app.board, {row: row, col: col});
+	var gameState = app.checkGameState(app.board, {row: row, col: col});
+	switch (gameState) {
+		case 0:
+			alert('Draw');
+			return;
+		case 1:
+			alert('Player ' + app.currentMove + ' wins');
+			return;
+	}
 
 	// If 1 player game and player has made move, call the computer to make
 	// its move.
