@@ -49,8 +49,9 @@ app.complete.cache = [];
 // Returns true if row is complete
 app.complete.row = function(row) {
 	for (var i = 0; i < row.length; i++) {
-		if (row[i] !== row[0])
+		if (row[i] !== row[0]) {
 			return false;
+		}
 	}
 
 	return true;
@@ -59,8 +60,9 @@ app.complete.row = function(row) {
 // Returns true if col is complete
 app.complete.col = function(col) {
 	for (var i = 0; i < col.length; i++) {
-		if (col[i] !== col[0])
+		if (col[i] !== col[0]) {
 			return false;
+		}
 	}
 
 	return true;
@@ -92,13 +94,18 @@ app.complete.diag = function(board, coordStr) {
 
 	// If coordStr references the center cell both diagonals will need to be tested
 	if (coordStr[0] === 1 && coordStr[1] === 1) {
-		if (testDiag(diag1))return true;
-		if (testDiag(diag2))return true;
+		if (testDiag(diag1) || testDiag(diag2)) {
+			return true;
+		}
 	}
 
 	// Check whatever diagonal path coordStr belongs to
-	if (diag1.indexOf(coordStr) >= 0)return testDiag(diag1);
-	if (diag2.indexOf(coordStr) >= 0)return testDiag(diag2);
+	if (diag1.indexOf(coordStr) >= 0) {
+		return testDiag(diag1);
+	}
+	if (diag2.indexOf(coordStr) >= 0) { 
+		return testDiag(diag2);
+	}
 };
 
 
@@ -145,7 +152,7 @@ app.checkGameState = function(board, lastMove) {
 };
 
 app.makeMove = function() {
-	$this = $(this);
+	var $this = $(this);
 	var row = $this.parent().attr('data-row');
 	var col = $this.attr('data-col');
 

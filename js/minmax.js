@@ -19,6 +19,6 @@ AI.makeMove = function() {
 	var i = Math.random() * (emptyCells - 1);
 	i = Math.round(i);
 
-	app.makeMove.bind($emptyCells[i])();
+	app.makeMove.bind( $emptyCells[i] )();
 };
 
