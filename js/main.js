@@ -3,14 +3,17 @@ var app = app || {};
 //////////////////////////////
 // Object Variables
 //////////////////////////////
+app.PLAYER = 'X';
+app.PLAYER2 = 'O';
+app.COMPUTER = 'O';
+
 app.board = [];
 app.currentMove = 'X';
 app.moves = {
 	X: 0,
 	O: 0
 };
-
-
+app.enableAI = true;
 
 
 
@@ -132,6 +135,11 @@ app.checkGameState = function(board, lastMove) {
 		return 1;
 	}
 
+	// Tie
+	if (this.moves.X + this.moves.Y === 9) {
+		return 0;
+	}
+
 	// Indicates that there is no result thus far
 	return undefined;
 };
@@ -157,8 +165,16 @@ app.makeMove = function() {
 
 	app.checkGameState(app.board, {row: row, col: col});
 
-	// Alternate moves
-	app.currentMove = (app.currentMove === 'X') ? 'O' : 'X';
+	// If 1 player game and player has made move, call the computer to make
+	// its move.
+	if (app.enableAI && app.currentMove === app.PLAYER) {
+		app.currentMove = (app.currentMove === 'X') ? 'O' : 'X';
+		AI.makeMove();
+	} 
+	// Otherwise pass currentMove over to other player
+	else {
+		app.currentMove = (app.currentMove === 'X') ? 'O' : 'X';
+	}
 };
 
 app.updateBoard = function(row, col, move) {
