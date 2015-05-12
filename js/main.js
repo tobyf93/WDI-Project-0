@@ -143,7 +143,7 @@ app.checkGameState = function(board, lastMove) {
 	}
 
 	// Tie
-	if (this.moves.X + this.moves.Y === 9) {
+	if (this.moves.X + this.moves.O === 9) {
 		return 0;
 	}
 
