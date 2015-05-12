@@ -52,6 +52,8 @@ AI.getAvailableMoves = function() {
 	return $('.cell:empty');
 };
 
+//some other text
+
 AI.makeMove = function() {
 	var $emptyCells = this.getAvailableMoves();
 	var emptyCells = $emptyCells.length;
