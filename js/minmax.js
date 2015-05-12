@@ -39,20 +39,34 @@ AI.minmax = function(board) {
 	}
 
 	var scores = [];
-	var boards = [];
+	var moves = [];
 
+	console.log(app.board);
+	// If moves still available recurse
 	var availableMoves = this.getAvailableMoves();
-	availableMoves.each(function() {
+	console.log(availableMoves.length);
+	for (var i = 0; i < availableMoves.length; i++) {
+		var $element = $(availableMoves[i]);
 		var possibleBoard = app.board;
+		var row = $element.parent().attr('data-row');
+		var col = $element.attr('data-col');
+
+		// possibleBoard[row][col] = app.currentMove;
+
+		//scores.push(AI.minmax(possibleBoard));
+		// moves.push(row+col);
+	}
+
+	availableMoves.each(function() {
 		
 	});
+
+	return 1;
 };
 
 AI.getAvailableMoves = function() {
 	return $('.cell:empty');
 };
-
-//some other text
 
 AI.makeMove = function() {
 	var $emptyCells = this.getAvailableMoves();
@@ -61,6 +75,8 @@ AI.makeMove = function() {
 	// Play dumb
 	var i = Math.random() * (emptyCells - 1);
 	i = Math.round(i);
+
+	this.minmax(app.board);
 
 	// Tricky use of app.makeMove but essentially what it does is that it takes
 	// the empty element that was selected at random and ensure 'this' references
