@@ -43,14 +43,13 @@ AI.minmax = function(board) {
 	var scores = [];
 	var moves = [];
 
+	// When the computer looks ahead it must use theoretical turns.  We only want
+	// app.currentTurn to change once the computer has analysed its possibilities
+	// and picked the best move possible.
 	this.theoreticalTurn = this.theoreticalTurn || app.currentTurn;
-	if (this.theoreticalTurn === app.COMPUTER) {
-
-	}
 
 	// If moves still available recurse
 	var availableMoves = this.getAvailableMoves(board);
-	console.log(availableMoves.length);
 	for (var i = 0; i < availableMoves.length; i++) {
 		var coord = availableMoves[i];
 		var row = coord[0];
@@ -62,6 +61,9 @@ AI.minmax = function(board) {
 		moves.push(coord);
 	}
 
+	if (this.theoreticalTurn === app.COMPUTER) {
+
+	}
 
 	this.theoreticalTurn = app.switchMove(this.theoreticalTurn);
 };
@@ -85,7 +87,7 @@ AI.makeMove = function() {
 	// var i = Math.random() * (emptyCells - 1);
 	// i = Math.round(i);
 
-	this.minmax(app.board);
+	AI.minmax(app.board);
 
 	// Tricky use of app.makeMove but essentially what it does is that it takes
 	// the empty element that was selected at random and ensure 'this' references

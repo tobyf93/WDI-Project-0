@@ -172,7 +172,7 @@ app.makeMove = function() {
 	$(this).html(app.currentTurn);
 
 	// Update Board (model)
-	app.updateBoard(row, col, app.currentTurn);
+	app.board[row][col] = app.currentTurn;
 	
 	// Increment player moves
 	app.moves[app.currentTurn]++;
@@ -191,7 +191,7 @@ app.makeMove = function() {
 	// its move.
 	if (app.enableAI && app.currentTurn === app.PLAYER) {
 		app.currentTurn = app.switchMove();
-		AI.makeMove();
+		setTimeout(AI.makeMove, 0);
 	} 
 	// Otherwise pass currentTurn over to other player
 	else {
@@ -199,10 +199,11 @@ app.makeMove = function() {
 	}
 };
 
-app.updateBoard = function(row, col, move) {
-	this.board[row][col] = move;
-	console.log('update board');
-};
+
+
+
+
+
 
 
 // Begin
