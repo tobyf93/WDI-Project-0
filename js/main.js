@@ -201,6 +201,7 @@ app.makeMove = function() {
 
 app.updateBoard = function(row, col, move) {
 	this.board[row][col] = move;
+	console.log('update board');
 };
 
 
