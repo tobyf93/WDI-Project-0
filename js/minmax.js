@@ -36,10 +36,6 @@ end
 */
 
 AI.minmax = function(board) {
-	if (app.checkGameState(board) === 0) {
-		return 0;
-	}
-
 	var scores = [];
 	var moves = [];
 
@@ -61,33 +57,22 @@ AI.minmax = function(board) {
 		moves.push(coord);
 	}
 
-	/*
-	if game.active_turn == @player
-        # This is the max calculation
-        max_score_index = scores.each_with_index.max[1]
-        @choice = moves[max_score_index]
-        return scores[max_score_index]
-    else
-        # This is the min calculation
-        min_score_index = scores.each_with_index.min[1]
-        @choice = moves[min_score_index]
-        return scores[min_score_index]
-    end
-    */
+	// Returning from function
+	//
+	// Note: moves array should work the same way
+	//
+	// For the bottom nodes (ones without children) we want to return the gameState
+	// for its caller.  This will ensure each parent receives a scores array as a
+	// result of all it's children pushing their states.
+	//
+	// All other nodes in the middle of the tree we want them to compile their scores
+	// array before analysing what they push up to their parent depending on what
+	// the theorecical move is.
+	//
+	// For the root node we want it to analyse scores but instead of pushing up a
+	// score we want to return a move.  This is so that we can use AI.minmax like..
+	// var move = AI.minmax(app.board);
 
-    // Look for maximum score
-	if (this.theoreticalTurn === app.COMPUTER) {
-		var maxIDX = Math.max.apply(null, scores);
-		return scores[maxIDX];
-	}
-	else {
-		var minIDX = Math.min.apply(null, scores);
-		return scores[minIDX];
-	}
-
-	this.theoreticalTurn = app.switchMove(this.theoreticalTurn);
-
-	return 'test';
 };
 
 AI.getAvailableMoves = function(board) {
