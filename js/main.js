@@ -8,7 +8,7 @@ app.PLAYER2 = 'O';
 app.COMPUTER = 'O';
 
 app.board = [];
-app.currentMove = 'X';
+app.currentTurn = 'X';
 app.moves = {
 	X: 0,
 	O: 0
@@ -112,7 +112,7 @@ app.complete.diag = function(board, coordStr) {
 // Checks game board for a win/draw/loss situation.  lastMove is passed into
 // the function to ensure the check is made with max efficiency.
 app.checkGameState = function(board, lastMove) {
-	if (this.moves[this.currentMove] < 3) {
+	if (this.moves[this.currentTurn] < 3) {
 		return;
 	}
 
@@ -151,8 +151,11 @@ app.checkGameState = function(board, lastMove) {
 	return undefined;
 };
 
-app.switchPlayer = function() {
-	this.currentMove = (this.currentMove === 'X') ? 'O' : 'X';
+app.switchMove = function(move) {
+	move = move || this.currentTurn;
+	move = (move === 'X') ? 'O' : 'X';
+
+	return move;
 };
 
 app.makeMove = function() {
@@ -166,13 +169,13 @@ app.makeMove = function() {
 	}
 
 	// Update View
-	$(this).html(app.currentMove);
+	$(this).html(app.currentTurn);
 
 	// Update Board (model)
-	app.updateBoard(row, col, app.currentMove);
+	app.updateBoard(row, col, app.currentTurn);
 	
 	// Increment player moves
-	app.moves[app.currentMove]++;
+	app.moves[app.currentTurn]++;
 
 	var gameState = app.checkGameState(app.board, {row: row, col: col});
 	switch (gameState) {
@@ -180,19 +183,19 @@ app.makeMove = function() {
 			alert('Draw');
 			return;
 		case 1:
-			alert('Player ' + app.currentMove + ' wins');
+			alert('Player ' + app.currentTurn + ' wins');
 			return;
 	}
 
 	// If 1 player game and player has made move, call the computer to make
 	// its move.
-	if (app.enableAI && app.currentMove === app.PLAYER) {
-		app.switchPlayer();
+	if (app.enableAI && app.currentTurn === app.PLAYER) {
+		app.currentTurn = app.switchMove();
 		AI.makeMove();
 	} 
-	// Otherwise pass currentMove over to other player
+	// Otherwise pass currentTurn over to other player
 	else {
-		app.switchPlayer();
+		app.currentTurn = app.switchMove();
 	}
 };
 

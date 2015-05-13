@@ -1,5 +1,7 @@
 AI = {};
 
+AI.theoreticalTurn = undefined;
+
 // app.checkGameState
 
 
@@ -43,24 +45,25 @@ AI.minmax = function(board) {
 
 	// If moves still available recurse
 	var availableMoves = this.getAvailableMoves(board);
-	console.log(availableMoves.length);
+	// console.log(availableMoves.length);
 	for (var i = 0; i < availableMoves.length; i++) {
 		var coord = availableMoves[i];
 		var row = coord[0];
 		var col = coord[1];
 		var possibleBoard = app.board;
 
-		possibleBoard[row][col] = app.currentMove;
+		possibleBoard[row][col] = app.currentTurn;
 		scores.push(AI.minmax(possibleBoard));
 		moves.push(coord);
 	}
 
-
-	if (app.currentMove === app.PLAYER) {
+	this.theoreticalTurn = this.theoreticalTurn || app.currentTurn;
+	if (this.theoreticalTurn === app.COMPUTER) {
 
 	}
 
-	return 1;
+	
+	this.theoreticalTurn = app.switchMove(this.theoreticalTurn);
 };
 
 AI.getAvailableMoves = function(board) {
