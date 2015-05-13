@@ -61,11 +61,33 @@ AI.minmax = function(board) {
 		moves.push(coord);
 	}
 
-	if (this.theoreticalTurn === app.COMPUTER) {
+	/*
+	if game.active_turn == @player
+        # This is the max calculation
+        max_score_index = scores.each_with_index.max[1]
+        @choice = moves[max_score_index]
+        return scores[max_score_index]
+    else
+        # This is the min calculation
+        min_score_index = scores.each_with_index.min[1]
+        @choice = moves[min_score_index]
+        return scores[min_score_index]
+    end
+    */
 
+    // Look for maximum score
+	if (this.theoreticalTurn === app.COMPUTER) {
+		var maxIDX = Math.max.apply(null, scores);
+		return scores[maxIDX];
+	}
+	else {
+		var minIDX = Math.min.apply(null, scores);
+		return scores[minIDX];
 	}
 
 	this.theoreticalTurn = app.switchMove(this.theoreticalTurn);
+
+	return 'test';
 };
 
 AI.getAvailableMoves = function(board) {
@@ -87,7 +109,8 @@ AI.makeMove = function() {
 	// var i = Math.random() * (emptyCells - 1);
 	// i = Math.round(i);
 
-	AI.minmax(app.board);
+	var move = AI.minmax(app.board);
+	console.log(move);
 
 	// Tricky use of app.makeMove but essentially what it does is that it takes
 	// the empty element that was selected at random and ensure 'this' references
