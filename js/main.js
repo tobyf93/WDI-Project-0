@@ -79,7 +79,7 @@ app.complete.diag = function(board, coordStr, player) {
 	var testDiag = function(diag) {
 		var firstEl = diag[0];
 
-		for (var i = 1; i < diag.length; i++) {
+		for (var i = 0; i < diag.length; i++) {
 			var thisEl = diag[i];
 			var val = board[thisEl[0]][thisEl[1]];
 
@@ -88,6 +88,7 @@ app.complete.diag = function(board, coordStr, player) {
 			}
 		}
 
+		console.log(coordStr);
 		return true;
 	};
 
@@ -110,12 +111,21 @@ app.complete.diag = function(board, coordStr, player) {
 
 // Checks game board for a win/draw/loss situation.  lastMove is passed into
 // the function to ensure the check is made with max efficiency.
-app._checkGameState = function(board, player, lastMove) {
-	// Tie
-	if (this.moves.X + this.moves.O === 9) {
-		return 0;
+app._checkGameState = function(board, player, lastMove, options) {
+	// Win = 10
+	// Draw = 0
+	// Undefined = -1
+	// Loss = -10
+	var moves = this.moves;
+
+	if (options) {
+		moves = options.moves || move;
 	}
 
+	// Tie
+	if (moves.X + moves.O === 9) {
+		return 0;
+	}
 
 	if (this.complete.row(board[lastMove.row], player)) {
 		return 10;
@@ -140,11 +150,12 @@ app._checkGameState = function(board, player, lastMove) {
 		return 10;
 	}
 
-	// Indicates that there is no result thus far
 	return -1;
 };
 
 app.checkGameState = function(board, player, lastMove) {
+	var oppositePlayer = app.switchMove(player);
+
 	// If no lastMove is passed we cannot optimize the check.  We have to check
 	// the entire board.
 	if (lastMove === undefined) {
@@ -152,16 +163,21 @@ app.checkGameState = function(board, player, lastMove) {
 		['00', '11', '22'].forEach(function(coordStr) {
 			var row = coordStr[0];
 			var col = coordStr[1];
-			var thisResult = app._checkGameState(board, player, {row: row, col: col});
-			if (thisResult > result) {
-				result = thisResult;
+			lastMove = {row: row, col: col};
+			var playerResult = app._checkGameState(board, player, lastMove);
+			var opponentResult = app._checkGameState(board, oppositePlayer, lastMove);
+
+			if (opponentResult === 10) {
+				result = -10;
+			} else if (result !== -10 && playerResult > result) {
+				result = playerResult;
 			}
 		});
 
 		return result;
 	}
 
-	return this._checkGameState(board, player, lastMove);
+	app._checkGameState(board, player, lastMove);
 };
 
 app.switchMove = function(move) {
@@ -219,10 +235,10 @@ app.makeMove = function() {
 app.testCases = function() {
 	var cases = [
 
-		'[["X","O","X"],["O","X","O"],["X","O","X"]]',
-		'[["X","O","X"],["X","O","X"],["X","O","O"]]',
-		'[["X","X","O"],["O","O","X"],["X","X","O"]]',
-		'[["X","",""],["","X",""],["","","O"]]'
+		// '[["X","O","X"],["O","X","O"],["X","O","X"]]',	//-10	(correct)
+		// '[["X","O","X"],["X","O","X"],["X","O","O"]]',	//10   	
+		'[["X","X","O"],["O","O","X"],["X","X","O"]]',		//0
+		// '[["X","",""],["","X",""],["","","O"]]'			//-1	(correct)
 
 	];
 
