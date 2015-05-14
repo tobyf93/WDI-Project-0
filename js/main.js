@@ -1,4 +1,5 @@
 var app = app || {};
+app.enableAI = false;
 
 app.initialize = function() {
 	app.PLAYER = 'X';
@@ -12,7 +13,6 @@ app.initialize = function() {
 		X: 0,
 		O: 0
 	};
-	app.enableAI = false;
 
 
 	$('#message').html('Tic Tac Toe');
@@ -161,7 +161,6 @@ app._checkGameState = function(board, player, lastMove, options) {
 	if (coordSum % 2 === 0 && this.complete.diag(board, coordStr, player)) {
 		return 10;
 	}
-	console.log(this.complete.cache);
 
 	return -1;
 };
@@ -257,6 +256,11 @@ app.makeMove = function() {
 $(document).ready(function() {
 	// Connect restart button
 	$('#game').on('click', '#restart.enabled', app.initialize);
+
+	$('#toggle').on('click', function() {
+		app.enableAI = (app.enableAI) ? false : true;
+		app.initialize();
+	});
 
 	app.initialize();
 });

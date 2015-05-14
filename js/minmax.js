@@ -109,23 +109,11 @@ AI.getAvailableMoves = function(board) {
 };
 
 AI.makeMove = function() {
-	// Play dumb
-	// var i = Math.random() * (emptyCells - 1);
-	// i = Math.round(i);
+	var $moves = $('.cell:empty');
+	var availableMoves = $moves.length;
+	var idx = Math.random() * (availableMoves - 1);
+	idx = Math.round(idx);
 
-	AI.minmax(app.board);
-	// var min = Math.min.apply(null, AI.scores);
-	// var minIDX = AI.scores.indexOf(min);
-	// AI.optimalMove = AI.moves[minIDX];
-
-	console.log( 'SCORES: ' + AI.scores );
-	console.log( 'MOVES: ' + AI.moves );
-	console.log( 'OPTIMAL: ' + AI.optimalMove );
-
-	// Tricky use of app.makeMove but essentially what it does is that it takes
-	// the empty element that was selected at random and ensure 'this' references
-	// the new element.  Without binding app.makeMove will think 'this' refers
-	// to the app object.
-	//app.makeMove.bind( $emptyCells[i] )();
+	app.makeMove.bind($moves[idx])();
 };
 
