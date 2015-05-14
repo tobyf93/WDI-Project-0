@@ -231,7 +231,8 @@ $(document).ready(function() {
 	app.registerEvents();
 	app.createBoardArray();
 
-	// app.testCases();
+	// app.testCase1();
+	// app.testCase2();
 });
 
 
@@ -240,21 +241,21 @@ $(document).ready(function() {
 
 
 
-
-app.testCases = function() {
+// Test checkGameState
+app.testCase1 = function() {
 	var cases = [
 
-		'[["X","O","X"],["O","X","O"],["X","X","O"]]',
-		'[["X","O","X"],["O","X","O"],["X","O","X"]]',	//-10	(correct)
-		'[["X","O","X"],["X","O","X"],["X","O","O"]]',	//10   	
-		'[["X","X","O"],["O","O","X"],["X","X","O"]]',		//0
-		'[["X","",""],["","X",""],["","","O"]]'			//-1	(correct)
+		'[["X","","O"],["O","X",""],["O","X","X"]]',
+		'[["X","X","O"],["O","O",""],["O","X","X"]]',
+		'[["X","","O"],["O","O","X"],["O","X","X"]]',
+		'[["X","X","O"],["O","X","O"],["O","X","X"]]',
+		'[["X","O","O"],["O","X","X"],["O","X","X"]]',
 
 	];
 
 	cases.forEach(function(jsonStr) {
 		var board = JSON.parse(jsonStr);
-		var player = 'O';
+		var player = 'X';
 
 		console.log(board[0]);
 		console.log(board[1]);
@@ -262,5 +263,33 @@ app.testCases = function() {
 		console.log('Result for ' + player + ': ' + app.checkGameState(board, player));
 		console.log('');
 	});
-
 };
+
+// Test AI.makeMove
+app.testCase2 = function() {
+	app.currentTurn = 'O';
+
+	// score[0] & score[1] incorrect
+	app.board = [
+		['O', '', 'X'],
+		['X', '', ''],
+		['X', 'O', 'O']
+	];
+
+	// app.board = [
+	// 	['X', 'X', 'O'],
+	// 	['O', '', ''],
+	// 	['O', 'X', 'X']
+	// ];
+
+	AI.makeMove();
+};
+
+
+
+
+
+
+
+
+

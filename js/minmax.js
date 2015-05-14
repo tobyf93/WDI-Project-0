@@ -48,7 +48,7 @@ AI.minmax = function(board) {
 	// debugger;
 	// If node has no children return the gamestate for the board.
 	if (!availableMoves.length) {
-		var gs = app.checkGameState(board, this.theoreticalTurn);
+		var gs = app.checkGameState(board, app.currentTurn);
 		returnVal = gs;
 	}
 	// Otherwise analyse the scores that the nodes children pushed up to them
@@ -56,7 +56,7 @@ AI.minmax = function(board) {
 	// use it within AI.makeMove.
 	else {
 
-		if (this.theoreticalTurn === app.COMPUTER) {
+		if (this.theoreticalTurn === app.PLAYER) {
 			var max = Math.max.apply(null, scores);
 			var maxIDX = scores.indexOf(max);
 			this.optimalMove = moves[maxIDX];
@@ -115,6 +115,10 @@ AI.makeMove = function() {
 	// i = Math.round(i);
 
 	AI.minmax(app.board);
+	var min = Math.min.apply(null, AI.scores);
+	var minIDX = AI.scores.indexOf(min);
+	AI.optimalMove = AI.moves[minIDX];
+
 	console.log( 'SCORES: ' + AI.scores );
 	console.log( 'MOVES: ' + AI.moves );
 	console.log( 'OPTIMAL: ' + AI.optimalMove );
