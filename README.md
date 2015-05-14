@@ -5,7 +5,7 @@ Click the link.
 ## Implemented Features:
 + Player vs Player
 + Game Over Animations and Restart
-+ AI solution tree compiled*
++ AI solution tree compiled[1]
 + Player vs AI*
 
 * Not enabled
