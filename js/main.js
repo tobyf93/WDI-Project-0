@@ -92,7 +92,7 @@ app.complete.diag = function(board, coordStr, player) {
 	};
 
 	// If coordStr references the center cell both diagonals will need to be tested
-	if (coordStr[0] === 1 && coordStr[1] === 1) {
+	if (coordStr[0] === '1' && coordStr[1] === '1') {
 		if (testDiag(diag1) || testDiag(diag2)) {
 			return true;
 		}
@@ -142,7 +142,7 @@ app._checkGameState = function(board, player, lastMove, options) {
 	}
 
 	// If the sum of row and col is even it is on a diagonal path
-	var coordSum = lastMove.row + lastMove.col;
+	var coordSum = parseInt(lastMove.row) + parseInt(lastMove.col);
 
 	var coordStr = lastMove.row + lastMove.col;
 	if (coordSum % 2 === 0 && this.complete.diag(board, coordStr, player)) {
@@ -172,7 +172,6 @@ app.checkGameState = function(board, player, lastMove) {
 				result = playerResult;
 			}
 		});
-
 		return result;
 	}
 
@@ -245,6 +244,7 @@ $(document).ready(function() {
 app.testCases = function() {
 	var cases = [
 
+		'[["X","O","X"],["O","X","O"],["X","X","O"]]',
 		'[["X","O","X"],["O","X","O"],["X","O","X"]]',	//-10	(correct)
 		'[["X","O","X"],["X","O","X"],["X","O","O"]]',	//10   	
 		'[["X","X","O"],["O","O","X"],["X","X","O"]]',		//0

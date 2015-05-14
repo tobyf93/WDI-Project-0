@@ -11,6 +11,11 @@ AI.minmax = function(board) {
 	var scores = [];
 	var moves = [];
 
+	var currentGameState = app.checkGameState(board, 'X');
+	if (currentGameState !== -1) {
+		return currentGameState;
+	}
+
 	// When the computer looks ahead it must use theoretical turns.  We only want
 	// app.currentTurn to change once the computer has analysed its possibilities
 	// and picked the best move possible.
