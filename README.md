@@ -24,7 +24,7 @@ Click the link.
     + Analysing solution tree - bubbling results up to the root node
 
 ## Hurdles
-+ Stack smashing (as a result of jQuery calls during recursion)
++ Stack overflows (as a result of jQuery calls during recursion)
 + Delays in HTML rendering
 
 ## What's next
