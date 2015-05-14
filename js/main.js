@@ -111,7 +111,7 @@ app.complete.diag = function(board, coordStr) {
 
 // Checks game board for a win/draw/loss situation.  lastMove is passed into
 // the function to ensure the check is made with max efficiency.
-app.checkGameState = function(board, lastMove) {
+app._checkGameState = function(board, lastMove) {
 	if (this.moves[this.currentTurn] < 3) {
 		return;
 	}
@@ -149,6 +149,26 @@ app.checkGameState = function(board, lastMove) {
 
 	// Indicates that there is no result thus far
 	return undefined;
+};
+
+app.checkGameState = function(board, lastMove) {
+	// If no lastMove is passed we cannot optimize the check.  We have to check
+	// the entire board.
+	if (lastMove === undefined) {
+		var result = -1;
+		['00', '11', '22'].forEach(function(coordStr) {
+			var row = coordStr[0];
+			var col = coordStr[1];
+			var thisResult = app._checkGameState(board, {row: row, col: col});
+			if (thisResult > result) {
+				result = thisResult;
+			}
+		});
+
+		return (result === -1) ? undefined : result;
+	}
+
+	return this._checkGameState(board, lastMove);
 };
 
 app.switchMove = function(move) {

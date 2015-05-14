@@ -22,17 +22,28 @@ AI.minmax = function(board) {
 		var col = coord[1];
 		var possibleBoard = $.extend(true, [], board);
 
-		possibleBoard[row][col] = app.currentTurn;
+		possibleBoard[row][col] = this.theoreticalTurn;
+
+		this.theoreticalTurn = app.switchMove(this.theoreticalTurn);
 		scores.push(AI.minmax(possibleBoard));
 		moves.push(coord);
 	}
 
-	var gs = app.checkGameState(board);
-	debugger;
+
+
+
+
+
+
+
+	var returnVal;
+	// var gs = app.checkGameState(board);
+	// debugger;
 	// If node has no children return the gamestate for the board.
 	if (!availableMoves.length) {
-		// console.log( app.checkGameState(board) );
-		return app.checkGameState(board);
+		var gs = app.checkGameState(board);
+		debugger;
+		returnVal = gs;
 	}
 	// Otherwise analyse the scores that the nodes children pushed up to them
 	// and select the best score to pass on.  AI.optimalMove is also set so we can
@@ -42,18 +53,22 @@ AI.minmax = function(board) {
 		if (this.theorecicalTurn === app.COMPUTER) {
 			var maxIDX = Math.max.apply(null, scores);
 			this.optimalMove = moves[maxIDX];
-			return scores[maxIDX];
+			returnVal = scores[maxIDX];
 		}
 		else {
 			var minIDX = Math.min.apply(null, scores);
 			this.optimalMove = moves[minIDX];
-			return scores[minIDX];
+			returnVal = scores[minIDX];
 		}
 
 	}
-	
 
-	// Returning from function
+	return returnVal;
+};
+
+
+
+// Returning from function
 	//
 	// Note: moves array should work the same way
 	//
@@ -68,8 +83,6 @@ AI.minmax = function(board) {
 	// For the root node we want it to analyse scores but instead of pushing up a
 	// score we want to return a move.  This is so that we can use AI.minmax like..
 	// var move = AI.minmax(app.board);
-
-};
 
 AI.getAvailableMoves = function(board) {
 	var result = [];
