@@ -1,8 +1,18 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
 
+@-ms-keyframes wiggle{0%{-ms-transform:rotate(3deg);}50%{-ms-transform:rotate(-3deg);}100%{-ms-transform:rotate(3deg);}}
+@-moz-keyframes wiggle{0%{-moz-transform:rotate(3deg);}50%{-moz-transform:rotate(-3deg);}100%{-moz-transform:rotate(3deg);}}
+@-webkit-keyframes wiggle{0%{-webkit-transform:rotate(3deg);}50%{-webkit-transform:rotate(-3deg);}100%{-webkit-transform:rotate(3deg);}}
+@keyframes wiggle{0%{transform:rotate(3deg);}50%{transform:rotate(-3deg);}100%{transform:rotate(3deg);}}
+.cell.wiggle {
+	-webkit-animation:wiggle .3s 2;
+	-webkit-animation-iteration-count: infinite;
+}
+
 body {
 	text-align: center;
 	font-family: 'Roboto', sans-serif;
+	background-color: #885053;
 }
 
 #game {
@@ -16,9 +26,11 @@ body {
 #message {
 	font-weight: bold;
 	line-height: 50px;
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 	margin-bottom: 5px;
 	font-size: 2em;
+	background-color: #EDEEC9;
+	/*color: #B0DAF1;*/
 }
 
 #board {
@@ -31,24 +43,35 @@ body {
 }
 
 .cell {
-	height: 178px;
-	width: 178px;
-	border: 2px solid black;
+	height: 182px;
+	width: 182px;
+	/*border: 2px solid black;*/
 	display: inline-block;
 	vertical-align: top;
-	line-height: 162px;
+	line-height: 182px;
 	text-align: center;
 	font-weight: bold;
 	font-size: 4em;
 	margin-bottom: 5px;
+	background-color: #373F47;
+	cursor: pointer;
 }
 
 .button {
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 	/*height: 75px;*/
 	/*width: 162px;*/
 	font-weight: bold;
 	margin-top: 7px;
 	font-size: 2em;
 	line-height: 75px;
+	/*background-color: #AAABBC;*/
+	background-color: #FE5F55;
+	opacity: 0.1;
+	cursor: default;
+}
+
+.enabled {
+	opacity: 1;
+	cursor: pointer;
 }

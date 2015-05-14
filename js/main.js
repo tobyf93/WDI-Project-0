@@ -1,19 +1,27 @@
 var app = app || {};
 
-//////////////////////////////
-// Object Variables
-//////////////////////////////
-app.PLAYER = 'X';
-app.PLAYER2 = 'O';
-app.COMPUTER = 'O';
+app.initialize = function() {
+	app.PLAYER = 'X';
+	app.PLAYER2 = 'O';
+	app.COMPUTER = 'O';
+	app.gameOver = false;
 
-app.board = [];
-app.currentTurn = 'X';
-app.moves = {
-	X: 0,
-	O: 0
+	app.board = [];
+	app.currentTurn = 'X';
+	app.moves = {
+		X: 0,
+		O: 0
+	};
+	app.enableAI = false;
+
+
+	$('#message').html('Tic Tac Toe');
+	$('.cell').html('');
+	app.registerEvents();
+	app.createBoardArray();
+	$('#restart').removeClass('enabled');
+	$('.cell').removeClass('wiggle');
 };
-app.enableAI = false;
 
 
 
@@ -44,7 +52,7 @@ app.complete = {};
 // Caches elements involved with last checked win condition.  E.g. if row 0
 // was checked, array would store ['0 0', '0 1', '0 2'].  Cache can be used
 // to highlight a win condition.
-app.complete.cache = [];
+app.complete.cache = [];  //Needs to be implemented a better way.
 
 // Returns true if row is complete
 app.complete.row = function(row, player) {
@@ -126,6 +134,7 @@ app._checkGameState = function(board, player, lastMove, options) {
 		return 0;
 	}
 
+	this.complete.cache = $('.row[data-row="' + lastMove.row + '"]').children();
 	if (this.complete.row(board[lastMove.row], player)) {
 		return 10;
 	}
@@ -137,6 +146,7 @@ app._checkGameState = function(board, player, lastMove, options) {
 		board[2][lastMove.col]
 	];
 
+	this.complete.cache = $('.cell[data-col="' + lastMove.col + '"]');
 	if (this.complete.col(col, player)) {
 		return 10;
 	}
@@ -189,6 +199,13 @@ app.setMessage = function(msg) {
 	$('#message').html(msg);
 };
 
+app.endGame = function() {
+	this.gameOver = true;
+	$('#board').off('click', '.cell', this.makeMove);
+	$('#restart').addClass('enabled');
+	this.complete.cache.addClass('wiggle');
+};
+
 app.makeMove = function() {
 	var $this = $(this);
 	var row = $this.parent().attr('data-row');
@@ -199,7 +216,7 @@ app.makeMove = function() {
 		return;
 	}
 
-	// Update View
+	// Update View + Model
 	$(this).html(app.currentTurn);
 
 	// Update Board (model)
@@ -212,9 +229,11 @@ app.makeMove = function() {
 	switch (gameState) {
 		case 0:
 			app.setMessage("Cat's Game");
+			app.endGame();
 			return;
 		case 10:
 			app.setMessage('Player ' + app.currentTurn + ' wins');
+			app.endGame();
 			return;
 	}
 
@@ -232,11 +251,10 @@ app.makeMove = function() {
 
 // Begin
 $(document).ready(function() {
-	app.registerEvents();
-	app.createBoardArray();
+	// Connect restart button
+	$('#game').on('click', '#restart.enabled', app.initialize);
 
-	// app.testCase1();
-	// app.testCase2();
+	app.initialize();
 });
 
 
