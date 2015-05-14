@@ -83,20 +83,22 @@ app.complete.diag = function(board, coordStr, player) {
 	var diag1 = ['00', '11', '22'];
 	var diag2 = ['02', '11', '20'];
 	var testBoth = false;
+	var returnVal = true;
+	this.cache = [];
 
 	var testDiag = function(diag) {
 		var firstEl = diag[0];
-
+		
 		for (var i = 0; i < diag.length; i++) {
 			var thisEl = diag[i];
 			var val = board[thisEl[0]][thisEl[1]];
 
 			if (val !== player) {
-				return false;
+				returnVal = false;
 			}
 		}
 
-		return true;
+		return returnVal;
 	};
 
 	// If coordStr references the center cell both diagonals will need to be tested
@@ -124,6 +126,7 @@ app._checkGameState = function(board, player, lastMove, options) {
 	// Undefined = -1
 	// Loss = -10
 	var moves = this.moves;
+	this.complete.cache = [];
 
 	if (options) {
 		moves = options.moves || move;
@@ -134,8 +137,8 @@ app._checkGameState = function(board, player, lastMove, options) {
 		return 0;
 	}
 
-	this.complete.cache = $('.row[data-row="' + lastMove.row + '"]').children();
 	if (this.complete.row(board[lastMove.row], player)) {
+		this.complete.cache = $('.row[data-row="' + lastMove.row + '"]').children();
 		return 10;
 	}
 
@@ -146,8 +149,8 @@ app._checkGameState = function(board, player, lastMove, options) {
 		board[2][lastMove.col]
 	];
 
-	this.complete.cache = $('.cell[data-col="' + lastMove.col + '"]');
 	if (this.complete.col(col, player)) {
+		this.complete.cache = $('.cell[data-col="' + lastMove.col + '"]');
 		return 10;
 	}
 
@@ -158,6 +161,7 @@ app._checkGameState = function(board, player, lastMove, options) {
 	if (coordSum % 2 === 0 && this.complete.diag(board, coordStr, player)) {
 		return 10;
 	}
+	console.log(this.complete.cache);
 
 	return -1;
 };
@@ -203,7 +207,7 @@ app.endGame = function() {
 	this.gameOver = true;
 	$('#board').off('click', '.cell', this.makeMove);
 	$('#restart').addClass('enabled');
-	this.complete.cache.addClass('wiggle');
+	$(this.complete.cache).addClass('wiggle');
 };
 
 app.makeMove = function() {
