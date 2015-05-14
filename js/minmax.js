@@ -43,13 +43,7 @@ AI.minmax = function(board) {
 	// debugger;
 	// If node has no children return the gamestate for the board.
 	if (!availableMoves.length) {
-		var gs = app.checkGameState(board);
-
-		if (this.theoreticalTurn !== app.currentTurn) {
-			var oldGS = gs;
-			gs = -gs;
-		}
-
+		var gs = app.checkGameState(board, this.theoreticalTurn);
 		returnVal = gs;
 	}
 	// Otherwise analyse the scores that the nodes children pushed up to them
@@ -90,7 +84,7 @@ AI.minmax = function(board) {
 	//
 	// All other nodes in the middle of the tree we want them to compile their scores
 	// array before analysing what they push up to their parent depending on what
-	// the theorecical move is.
+	// the theoretical move is.
 	//
 	// For the root node we want it to analyse scores but instead of pushing up a
 	// score we want to return a move.  This is so that we can use AI.minmax like..
@@ -116,7 +110,6 @@ AI.makeMove = function() {
 	// i = Math.round(i);
 
 	AI.minmax(app.board);
-
 	console.log( 'SCORES: ' + AI.scores );
 	console.log( 'MOVES: ' + AI.moves );
 	console.log( 'OPTIMAL: ' + AI.optimalMove );

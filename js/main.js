@@ -13,7 +13,7 @@ app.moves = {
 	X: 0,
 	O: 0
 };
-app.enableAI = false;
+app.enableAI = true;
 
 
 
@@ -88,7 +88,6 @@ app.complete.diag = function(board, coordStr, player) {
 			}
 		}
 
-		console.log(coordStr);
 		return true;
 	};
 
@@ -177,7 +176,7 @@ app.checkGameState = function(board, player, lastMove) {
 		return result;
 	}
 
-	app._checkGameState(board, player, lastMove);
+	return app._checkGameState(board, player, lastMove);
 };
 
 app.switchMove = function(move) {
@@ -206,7 +205,7 @@ app.makeMove = function() {
 	// Increment player moves
 	app.moves[app.currentTurn]++;
 
-	var gameState = app.checkGameState(app.board, {row: row, col: col});
+	var gameState = app.checkGameState(app.board, app.currentTurn, {row: row, col: col});
 	switch (gameState) {
 		case 0:
 			alert('Draw');
@@ -228,6 +227,17 @@ app.makeMove = function() {
 	}
 };
 
+// Begin
+$(document).ready(function() {
+	app.registerEvents();
+	app.createBoardArray();
+
+	// app.testCases();
+});
+
+
+
+
 
 
 
@@ -235,10 +245,10 @@ app.makeMove = function() {
 app.testCases = function() {
 	var cases = [
 
-		// '[["X","O","X"],["O","X","O"],["X","O","X"]]',	//-10	(correct)
-		// '[["X","O","X"],["X","O","X"],["X","O","O"]]',	//10   	
+		'[["X","O","X"],["O","X","O"],["X","O","X"]]',	//-10	(correct)
+		'[["X","O","X"],["X","O","X"],["X","O","O"]]',	//10   	
 		'[["X","X","O"],["O","O","X"],["X","X","O"]]',		//0
-		// '[["X","",""],["","X",""],["","","O"]]'			//-1	(correct)
+		'[["X","",""],["","X",""],["","","O"]]'			//-1	(correct)
 
 	];
 
@@ -254,13 +264,3 @@ app.testCases = function() {
 	});
 
 };
-
-
-
-// Begin
-$(document).ready(function() {
-	app.registerEvents();
-	app.createBoardArray();
-
-	app.testCases();
-});
