@@ -112,12 +112,7 @@ app.complete.diag = function(board, coordStr) {
 // Checks game board for a win/draw/loss situation.  lastMove is passed into
 // the function to ensure the check is made with max efficiency.
 app._checkGameState = function(board, lastMove) {
-	if (this.moves[this.currentTurn] < 3) {
-		return;
-	}
-
 	if (this.complete.row(board[lastMove.row])) {
-		console.log('winner by row');
 		return 1;
 	}
 
@@ -129,7 +124,6 @@ app._checkGameState = function(board, lastMove) {
 	];
 
 	if (this.complete.col(col)) {
-		console.log('winner by col');
 		return 1;
 	}
 
@@ -138,7 +132,6 @@ app._checkGameState = function(board, lastMove) {
 
 	var coordStr = lastMove.row + lastMove.col;
 	if (coordSum % 2 === 0 && this.complete.diag(board, coordStr)) {
-		console.log('winner by diag');
 		return 1;
 	}
 
