@@ -3,7 +3,9 @@ AI = {};
 AI.theoreticalTurn = undefined;
 AI.optimalMove = undefined;
 
-// need to modify checkGameState to check an entire board
+//temp
+AI.scores = undefined;
+AI.moves = undefined;
 
 AI.minmax = function(board) {
 	var scores = [];
@@ -53,15 +55,18 @@ AI.minmax = function(board) {
 			var max = Math.max.apply(null, scores);
 			var maxIDX = scores.indexOf(max);
 			this.optimalMove = moves[maxIDX];
+			this.scores = scores;
 			returnVal = scores[maxIDX];
 		}
 		else {
 			var min = Math.min.apply(null, scores);
 			var minIDX = scores.indexOf(min);
 			this.optimalMove = moves[minIDX];
+			this.scores = scores;
 			returnVal = scores[minIDX];
 		}
 
+		// if (this.optimalMove !== undefined)debugger;
 	}
 
 	return returnVal;
@@ -104,8 +109,11 @@ AI.makeMove = function() {
 	// var i = Math.random() * (emptyCells - 1);
 	// i = Math.round(i);
 
-	console.log( AI.minmax(app.board) );
-	// console.log(AI.optimalMove);
+	AI.minmax(app.board);
+
+	console.log( 'SCORES: ' + AI.scores );
+	console.log( 'MOVES: ' + AI.moves );
+	console.log( 'OPTIMAL: ' + AI.optimalMove );
 
 	// Tricky use of app.makeMove but essentially what it does is that it takes
 	// the empty element that was selected at random and ensure 'this' references

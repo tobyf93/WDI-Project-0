@@ -112,8 +112,14 @@ app.complete.diag = function(board, coordStr) {
 // Checks game board for a win/draw/loss situation.  lastMove is passed into
 // the function to ensure the check is made with max efficiency.
 app._checkGameState = function(board, lastMove) {
+	// Tie
+	if (this.moves.X + this.moves.O === 9) {
+		return 0;
+	}
+
+
 	if (this.complete.row(board[lastMove.row])) {
-		return 1;
+		return 10;
 	}
 
 	// Create an array of elements in column
@@ -124,7 +130,7 @@ app._checkGameState = function(board, lastMove) {
 	];
 
 	if (this.complete.col(col)) {
-		return 1;
+		return 10;
 	}
 
 	// If the sum of row and col is even it is on a diagonal path
@@ -132,16 +138,11 @@ app._checkGameState = function(board, lastMove) {
 
 	var coordStr = lastMove.row + lastMove.col;
 	if (coordSum % 2 === 0 && this.complete.diag(board, coordStr)) {
-		return 1;
-	}
-
-	// Tie
-	if (this.moves.X + this.moves.O === 9) {
-		return 0;
+		return 10;
 	}
 
 	// Indicates that there is no result thus far
-	return undefined;
+	return -1;
 };
 
 app.checkGameState = function(board, lastMove) {
@@ -158,7 +159,7 @@ app.checkGameState = function(board, lastMove) {
 			}
 		});
 
-		return (result === -1) ? undefined : result;
+		return result;
 	}
 
 	return this._checkGameState(board, lastMove);
