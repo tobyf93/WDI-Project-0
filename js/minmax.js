@@ -56,6 +56,7 @@ AI.minmax = function(board) {
 			var maxIDX = scores.indexOf(max);
 			this.optimalMove = moves[maxIDX];
 			this.scores = scores;
+			this.moves = moves;
 			returnVal = scores[maxIDX];
 		}
 		else {
@@ -63,10 +64,9 @@ AI.minmax = function(board) {
 			var minIDX = scores.indexOf(min);
 			this.optimalMove = moves[minIDX];
 			this.scores = scores;
+			this.moves = moves;
 			returnVal = scores[minIDX];
 		}
-
-		// if (this.optimalMove !== undefined)debugger;
 	}
 
 	return returnVal;
