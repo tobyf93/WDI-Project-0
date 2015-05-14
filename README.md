@@ -12,7 +12,7 @@ Click the link.
 
 ## Code Structure:
 + App Object
-..+ Main object
+  + Main object
 ++ Responsible for almost all game functions and test cases
 ++ Implements game state checking with optimization
 + AI Object
