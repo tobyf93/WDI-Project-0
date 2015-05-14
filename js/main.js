@@ -13,7 +13,7 @@ app.moves = {
 	X: 0,
 	O: 0
 };
-app.enableAI = true;
+app.enableAI = false;
 
 
 
@@ -47,9 +47,9 @@ app.complete = {};
 app.complete.cache = [];
 
 // Returns true if row is complete
-app.complete.row = function(row) {
+app.complete.row = function(row, player) {
 	for (var i = 0; i < row.length; i++) {
-		if (row[i] !== row[0]) {
+		if (row[i] !== player) {
 			return false;
 		}
 	}
@@ -58,9 +58,9 @@ app.complete.row = function(row) {
 };
 
 // Returns true if col is complete
-app.complete.col = function(col) {
+app.complete.col = function(col, player) {
 	for (var i = 0; i < col.length; i++) {
-		if (col[i] !== col[0]) {
+		if (col[i] !== player) {
 			return false;
 		}
 	}
@@ -71,20 +71,19 @@ app.complete.col = function(col) {
 // Returns true if diagonal is complete.  The reason for passing a coordStr
 // rather than an array of coords is due to the use of indexOf - you can't pass
 // an array into indexOf and expect to get anything useful back.
-app.complete.diag = function(board, coordStr) {
+app.complete.diag = function(board, coordStr, player) {
 	var diag1 = ['00', '11', '22'];
 	var diag2 = ['02', '11', '20'];
 	var testBoth = false;
 
 	var testDiag = function(diag) {
 		var firstEl = diag[0];
-		var compareVal = board[firstEl[0]][firstEl[1]];
 
 		for (var i = 1; i < diag.length; i++) {
 			var thisEl = diag[i];
 			var val = board[thisEl[0]][thisEl[1]];
 
-			if (val !== compareVal) {
+			if (val !== player) {
 				return false;
 			}
 		}
@@ -111,14 +110,14 @@ app.complete.diag = function(board, coordStr) {
 
 // Checks game board for a win/draw/loss situation.  lastMove is passed into
 // the function to ensure the check is made with max efficiency.
-app._checkGameState = function(board, lastMove) {
+app._checkGameState = function(board, player, lastMove) {
 	// Tie
 	if (this.moves.X + this.moves.O === 9) {
 		return 0;
 	}
 
 
-	if (this.complete.row(board[lastMove.row])) {
+	if (this.complete.row(board[lastMove.row], player)) {
 		return 10;
 	}
 
@@ -129,7 +128,7 @@ app._checkGameState = function(board, lastMove) {
 		board[2][lastMove.col]
 	];
 
-	if (this.complete.col(col)) {
+	if (this.complete.col(col, player)) {
 		return 10;
 	}
 
@@ -137,7 +136,7 @@ app._checkGameState = function(board, lastMove) {
 	var coordSum = lastMove.row + lastMove.col;
 
 	var coordStr = lastMove.row + lastMove.col;
-	if (coordSum % 2 === 0 && this.complete.diag(board, coordStr)) {
+	if (coordSum % 2 === 0 && this.complete.diag(board, coordStr, player)) {
 		return 10;
 	}
 
@@ -145,7 +144,7 @@ app._checkGameState = function(board, lastMove) {
 	return -1;
 };
 
-app.checkGameState = function(board, lastMove) {
+app.checkGameState = function(board, player, lastMove) {
 	// If no lastMove is passed we cannot optimize the check.  We have to check
 	// the entire board.
 	if (lastMove === undefined) {
@@ -153,7 +152,7 @@ app.checkGameState = function(board, lastMove) {
 		['00', '11', '22'].forEach(function(coordStr) {
 			var row = coordStr[0];
 			var col = coordStr[1];
-			var thisResult = app._checkGameState(board, {row: row, col: col});
+			var thisResult = app._checkGameState(board, player, {row: row, col: col});
 			if (thisResult > result) {
 				result = thisResult;
 			}
@@ -162,7 +161,7 @@ app.checkGameState = function(board, lastMove) {
 		return result;
 	}
 
-	return this._checkGameState(board, lastMove);
+	return this._checkGameState(board, player, lastMove);
 };
 
 app.switchMove = function(move) {
@@ -217,6 +216,28 @@ app.makeMove = function() {
 
 
 
+app.testCases = function() {
+	var cases = [
+
+		'[["X","O","X"],["O","X","O"],["X","O","X"]]',
+		'[["X","O","X"],["X","O","X"],["X","O","O"]]',
+		'[["X","X","O"],["O","O","X"],["X","X","O"]]',
+		'[["X","",""],["","X",""],["","","O"]]'
+
+	];
+
+	cases.forEach(function(jsonStr) {
+		var board = JSON.parse(jsonStr);
+		var player = 'O';
+
+		console.log(board[0]);
+		console.log(board[1]);
+		console.log(board[2]);
+		console.log('Result for ' + player + ': ' + app.checkGameState(board, player));
+		console.log('');
+	});
+
+};
 
 
 
@@ -224,4 +245,6 @@ app.makeMove = function() {
 $(document).ready(function() {
 	app.registerEvents();
 	app.createBoardArray();
+
+	app.testCases();
 });

@@ -44,6 +44,12 @@ AI.minmax = function(board) {
 	// If node has no children return the gamestate for the board.
 	if (!availableMoves.length) {
 		var gs = app.checkGameState(board);
+
+		if (this.theoreticalTurn !== app.currentTurn) {
+			var oldGS = gs;
+			gs = -gs;
+		}
+
 		returnVal = gs;
 	}
 	// Otherwise analyse the scores that the nodes children pushed up to them
