@@ -245,17 +245,13 @@ $(document).ready(function() {
 app.testCase1 = function() {
 	var cases = [
 
-		'[["X","","O"],["O","X",""],["O","X","X"]]',
-		'[["X","X","O"],["O","O",""],["O","X","X"]]',
-		'[["X","","O"],["O","O","X"],["O","X","X"]]',
-		'[["X","X","O"],["O","X","O"],["O","X","X"]]',
-		'[["X","O","O"],["O","X","X"],["O","X","X"]]',
+		'[["O","O","X"],["X","",""],["X","O","O"]]',
 
 	];
 
 	cases.forEach(function(jsonStr) {
 		var board = JSON.parse(jsonStr);
-		var player = 'X';
+		var player = 'O';
 
 		console.log(board[0]);
 		console.log(board[1]);
@@ -268,19 +264,11 @@ app.testCase1 = function() {
 // Test AI.makeMove
 app.testCase2 = function() {
 	app.currentTurn = 'O';
-
-	// score[0] & score[1] incorrect
 	app.board = [
 		['O', '', 'X'],
 		['X', '', ''],
 		['X', 'O', 'O']
 	];
-
-	// app.board = [
-	// 	['X', 'X', 'O'],
-	// 	['O', '', ''],
-	// 	['O', 'X', 'X']
-	// ];
 
 	AI.makeMove();
 };

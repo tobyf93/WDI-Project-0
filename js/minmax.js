@@ -1,25 +1,24 @@
 AI = {};
 
-AI.theoreticalTurn = undefined;
 AI.optimalMove = undefined;
 
 //temp
 AI.scores = undefined;
 AI.moves = undefined;
 
-AI.minmax = function(board) {
+AI.minmax = function(board, theoreticalTurn) {
 	var scores = [];
 	var moves = [];
-
-	var currentGameState = app.checkGameState(board, 'X');
-	if (currentGameState !== -1) {
-		return currentGameState;
-	}
 
 	// When the computer looks ahead it must use theoretical turns.  We only want
 	// app.currentTurn to change once the computer has analysed its possibilities
 	// and picked the best move possible.
-	this.theoreticalTurn = this.theoreticalTurn || app.currentTurn;
+	theoreticalTurn = theoreticalTurn || app.currentTurn;
+
+	var currentGameState = app.checkGameState(board, theoreticalTurn);
+	if (currentGameState !== -1) {
+		return currentGameState;
+	}
 
 	// If moves still available recurse
 	var availableMoves = this.getAvailableMoves(board);
@@ -29,10 +28,10 @@ AI.minmax = function(board) {
 		var col = coord[1];
 		var possibleBoard = $.extend(true, [], board);
 
-		possibleBoard[row][col] = this.theoreticalTurn;
+		possibleBoard[row][col] = theoreticalTurn;
 
-		this.theoreticalTurn = app.switchMove(this.theoreticalTurn);
-		scores.push(AI.minmax(possibleBoard));
+		var oppositeTurn = app.switchMove(theoreticalTurn);
+		scores.push(AI.minmax(possibleBoard, oppositeTurn));
 		moves.push(coord);
 	}
 
@@ -56,7 +55,7 @@ AI.minmax = function(board) {
 	// use it within AI.makeMove.
 	else {
 
-		if (this.theoreticalTurn === app.PLAYER) {
+		if (theoreticalTurn === app.COMPUTER) {
 			var max = Math.max.apply(null, scores);
 			var maxIDX = scores.indexOf(max);
 			this.optimalMove = moves[maxIDX];
@@ -115,9 +114,9 @@ AI.makeMove = function() {
 	// i = Math.round(i);
 
 	AI.minmax(app.board);
-	var min = Math.min.apply(null, AI.scores);
-	var minIDX = AI.scores.indexOf(min);
-	AI.optimalMove = AI.moves[minIDX];
+	// var min = Math.min.apply(null, AI.scores);
+	// var minIDX = AI.scores.indexOf(min);
+	// AI.optimalMove = AI.moves[minIDX];
 
 	console.log( 'SCORES: ' + AI.scores );
 	console.log( 'MOVES: ' + AI.moves );
