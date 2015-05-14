@@ -1,39 +1,9 @@
 AI = {};
 
 AI.theoreticalTurn = undefined;
-
-// app.checkGameState
-
+AI.optimalMove = undefined;
 
 // need to modify checkGameState to check an entire board
-
-/*
-def minimax(game)
-    return score(game) if game.over?
-    scores = [] # an array of scores
-    moves = []  # an array of moves
-
-    # Populate the scores array, recursing as needed
-    game.get_available_moves.each do |move|
-        possible_game = game.get_new_state(move)
-        scores.push minimax(possible_game)
-        moves.push move
-    end
-
-    # Do the min or the max calculation
-    if game.active_turn == @player
-        # This is the max calculation
-        max_score_index = scores.each_with_index.max[1]
-        @choice = moves[max_score_index]
-        return scores[max_score_index]
-    else
-        # This is the min calculation
-        min_score_index = scores.each_with_index.min[1]
-        @choice = moves[min_score_index]
-        return scores[min_score_index]
-    end
-end
-*/
 
 AI.minmax = function(board) {
 	var scores = [];
@@ -56,6 +26,32 @@ AI.minmax = function(board) {
 		scores.push(AI.minmax(possibleBoard));
 		moves.push(coord);
 	}
+
+	var gs = app.checkGameState(board);
+	debugger;
+	// If node has no children return the gamestate for the board.
+	if (!availableMoves.length) {
+		// console.log( app.checkGameState(board) );
+		return app.checkGameState(board);
+	}
+	// Otherwise analyse the scores that the nodes children pushed up to them
+	// and select the best score to pass on.  AI.optimalMove is also set so we can
+	// use it within AI.makeMove.
+	else {
+
+		if (this.theorecicalTurn === app.COMPUTER) {
+			var maxIDX = Math.max.apply(null, scores);
+			this.optimalMove = moves[maxIDX];
+			return scores[maxIDX];
+		}
+		else {
+			var minIDX = Math.min.apply(null, scores);
+			this.optimalMove = moves[minIDX];
+			return scores[minIDX];
+		}
+
+	}
+	
 
 	// Returning from function
 	//
@@ -94,8 +90,8 @@ AI.makeMove = function() {
 	// var i = Math.random() * (emptyCells - 1);
 	// i = Math.round(i);
 
-	var move = AI.minmax(app.board);
-	console.log(move);
+	console.log( AI.minmax(app.board) );
+	// console.log(AI.optimalMove);
 
 	// Tricky use of app.makeMove but essentially what it does is that it takes
 	// the empty element that was selected at random and ensure 'this' references
