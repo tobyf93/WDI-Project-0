@@ -6,9 +6,9 @@ Click the link.
 + Player vs Player
 + Game Over Animations and Restart
 + AI solution tree compiled[1]
-+ Player vs AI*
++ Player vs AI[1]
 
-* Not enabled
+[1] Not enabled
 
 ## Code Structure:
 + App Object
