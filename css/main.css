@@ -1,13 +1,29 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700);
+
+body {
+	text-align: center;
+	font-family: 'Roboto', sans-serif;
+}
+
 #game {
 	height: 600px;
-	width: 960px;
-	margin: 25px auto 0;
+	/*width: 960px;*/
+	display: inline-block;
+	margin: 5px auto 0;
+	/*border: 1px solid black;*/
+}
+
+#message {
+	font-weight: bold;
+	line-height: 50px;
 	border: 1px solid black;
+	margin-bottom: 5px;
+	font-size: 2em;
 }
 
 #board {
-	height: 500px;
-	width: 500px;
+	height: 555px;
+	width: 555px;
 	margin: 0 auto;
 	/*border: 1px solid black;*/
 	/*position: relative;
@@ -15,8 +31,8 @@
 }
 
 .cell {
-	height: 160px;
-	width: 160px;
+	height: 178px;
+	width: 178px;
 	border: 2px solid black;
 	display: inline-block;
 	vertical-align: top;
@@ -25,4 +41,14 @@
 	font-weight: bold;
 	font-size: 4em;
 	margin-bottom: 5px;
+}
+
+.button {
+	border: 1px solid black;
+	/*height: 75px;*/
+	/*width: 162px;*/
+	font-weight: bold;
+	margin-top: 7px;
+	font-size: 2em;
+	line-height: 75px;
 }

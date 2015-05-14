@@ -13,7 +13,7 @@ app.moves = {
 	X: 0,
 	O: 0
 };
-app.enableAI = true;
+app.enableAI = false;
 
 
 
@@ -185,6 +185,10 @@ app.switchMove = function(move) {
 	return move;
 };
 
+app.setMessage = function(msg) {
+	$('#message').html(msg);
+};
+
 app.makeMove = function() {
 	var $this = $(this);
 	var row = $this.parent().attr('data-row');
@@ -207,10 +211,10 @@ app.makeMove = function() {
 	var gameState = app.checkGameState(app.board, app.currentTurn, {row: row, col: col});
 	switch (gameState) {
 		case 0:
-			alert('Draw');
+			app.setMessage("Cat's Game");
 			return;
-		case 1:
-			alert('Player ' + app.currentTurn + ' wins');
+		case 10:
+			app.setMessage('Player ' + app.currentTurn + ' wins');
 			return;
 	}
 
