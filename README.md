@@ -7,7 +7,7 @@ Click the link.
 + Game Over Animations and Restart
 + Player vs AI (difficulty: 'easy')
 + AI solution tree compiled[1]
-+ Player vs AI (difficulty: 'get fucked') [1]
++ Player vs AI (difficulty: 'impossible') [1]
 + Board modelled in javascript using a 2D array
 
 [1] Not enabled
