@@ -165,6 +165,13 @@ app._checkGameState = function(board, player, lastMove, options) {
 	return -1;
 };
 
+
+//////////////////////////
+// Needs attention!!!
+//////////////////////////
+// I think this would be better off in AI.checkGameState.  It should work with original
+// app.checkGameState i.e. it shouldn't pass it any option object.  It should check 
+// for a draw itself before passing it the app.checkGame state to check for win/loss/undefined.
 app.checkGameState = function(board, player, lastMove) {
 	var oppositePlayer = app.switchMove(player);
 
