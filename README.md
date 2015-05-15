@@ -5,8 +5,9 @@ Click the link.
 ## Implemented Features:
 + Player vs Player
 + Game Over Animations and Restart
++ Player vs AI
 + AI solution tree compiled[1]
-+ Player vs AI[1]
++ Player vs AI (difficulty: 'get fucked') [1]
 
 [1] Not enabled
 
