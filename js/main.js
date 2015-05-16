@@ -267,10 +267,25 @@ app.testCase1 = function() {
 // Test AI.makeMove
 app.testCase2 = function() {
 	app.currentTurn = 'X';
+
+	// Successful
 	app.board = [
 		['O', '', 'X'],
 		['X', '', ''],
 		['X', 'O', 'O']
+	];
+
+	// Successful
+	app.board = [
+		['O', 'X', ''],
+		['X', '', ''],
+		['X', 'O', 'O']
+	];
+
+	app.board = [
+		['O', 'X', ''],
+		['X', '', ''],
+		['X', 'O', '']
 	];
 
 	AI.makeMove();
