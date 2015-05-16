@@ -37,9 +37,10 @@ AI.minmax = function(board, theoreticalTurn) {
 	// and picked the best move possible.
 	theoreticalTurn = theoreticalTurn || app.currentTurn;
 
-	console.log(JSON.stringify(board));
-	debugger;
-	var currentGameState = AI.checkGameState(board, theoreticalTurn);
+	// console.log(JSON.stringify(board));
+	// debugger;
+
+	var currentGameState = AI.checkGameState(board, app.switchMove(app.currentTurn)); //hack
 	if (currentGameState !== -1) {
 		return currentGameState;
 	}
@@ -78,7 +79,7 @@ AI.minmax = function(board, theoreticalTurn) {
 	// use it within AI.makeMove.
 	else {
 
-		if (theoreticalTurn === app.COMPUTER) {
+		if (theoreticalTurn === app.PLAYER) {
 			var max = Math.max.apply(null, scores);
 			var maxIDX = scores.indexOf(max);
 			this.optimalMove = moves[maxIDX];

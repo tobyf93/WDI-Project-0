@@ -234,8 +234,8 @@ $(document).ready(function() {
 	});
 
 	app.initialize();
-	app.testCase1();
-	// app.testCase2();
+	// app.testCase1();
+	app.testCase2();
 });
 
 
