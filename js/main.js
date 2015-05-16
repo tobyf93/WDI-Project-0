@@ -1,5 +1,5 @@
 var app = app || {};
-app.enableAI = true;
+app.enableAI = false;
 
 app.initialize = function() {
 	app.PLAYER = 'X';
