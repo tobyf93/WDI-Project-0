@@ -78,11 +78,14 @@ app.complete.col = function(col, player) {
 // Returns true if diagonal is complete.  The reason for passing a coordStr
 // rather than an array of coords is due to the use of indexOf - you can't pass
 // an array into indexOf and expect to get anything useful back.
+
+/////////////////////
+// ATTENTION
+/////////////////////
 app.complete.diag = function(board, coordStr, player) {
 	var diag1 = ['00', '11', '22'];
 	var diag2 = ['02', '11', '20'];
 	var testBoth = false;
-	var returnVal = true;
 	this.cache = [];
 
 	var testDiag = function(diag) {
@@ -93,11 +96,11 @@ app.complete.diag = function(board, coordStr, player) {
 			var val = board[thisEl[0]][thisEl[1]];
 
 			if (val !== player) {
-				returnVal = false;
+				return false;
 			}
 		}
 
-		return returnVal;
+		return true;
 	};
 
 	// If coordStr references the center cell both diagonals will need to be tested
@@ -231,7 +234,8 @@ $(document).ready(function() {
 	});
 
 	app.initialize();
-	app.testCase2();
+	app.testCase1();
+	// app.testCase2();
 });
 
 
@@ -244,18 +248,18 @@ $(document).ready(function() {
 app.testCase1 = function() {
 	var cases = [
 
-		'[["O","O","X"],["X","",""],["X","O","O"]]',
+		'[["O","O","X"],["X","X",""],["X","O","O"]]',
 
 	];
 
 	cases.forEach(function(jsonStr) {
 		var board = JSON.parse(jsonStr);
-		var player = 'O';
+		var player = 'X';
 
 		console.log(board[0]);
 		console.log(board[1]);
 		console.log(board[2]);
-		console.log('Result for ' + player + ': ' + app.checkGameState(board, player));
+		console.log('Result for ' + player + ': ' + app.checkGameState(board, player, {row: "1", col: "1"}));
 		console.log('');
 	});
 };

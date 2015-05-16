@@ -37,6 +37,8 @@ AI.minmax = function(board, theoreticalTurn) {
 	// and picked the best move possible.
 	theoreticalTurn = theoreticalTurn || app.currentTurn;
 
+	console.log(JSON.stringify(board));
+	debugger;
 	var currentGameState = AI.checkGameState(board, theoreticalTurn);
 	if (currentGameState !== -1) {
 		return currentGameState;
@@ -50,9 +52,8 @@ AI.minmax = function(board, theoreticalTurn) {
 		var col = coord[1];
 		var possibleBoard = $.extend(true, [], board);
 
-		possibleBoard[row][col] = theoreticalTurn;
-
 		var oppositeTurn = app.switchMove(theoreticalTurn);
+		possibleBoard[row][col] = oppositeTurn;
 		scores.push(AI.minmax(possibleBoard, oppositeTurn));
 		moves.push(coord);
 	}
