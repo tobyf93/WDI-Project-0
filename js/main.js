@@ -24,7 +24,6 @@ app.initialize = function() {
 };
 
 
-
 //////////////////////////////
 // Object Methods
 //////////////////////////////
@@ -56,7 +55,6 @@ app.complete.cache = [];  //Needs to be implemented a better way.
 
 // Returns true if row is complete
 app.complete.row = function(row, player) {
-	if (row === undefined)debugger;
 	for (var i = 0; i < row.length; i++) {
 		if (row[i] !== player) {
 			return false;
@@ -233,6 +231,7 @@ $(document).ready(function() {
 	});
 
 	app.initialize();
+	app.testCase2();
 });
 
 
@@ -263,7 +262,7 @@ app.testCase1 = function() {
 
 // Test AI.makeMove
 app.testCase2 = function() {
-	app.currentTurn = 'O';
+	app.currentTurn = 'X';
 	app.board = [
 		['O', '', 'X'],
 		['X', '', ''],
