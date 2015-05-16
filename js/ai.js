@@ -138,12 +138,19 @@ AI.makeMove = function() {
 	// var idx = Math.random() * (availableMoves - 1);
 	// idx = Math.round(idx);
 
-	// app.makeMove.bind($moves[idx])();
-
 	AI.minmax(app.board);
 	console.log(AI.scores);
 	console.log(AI.moves);
 	console.log(AI.optimalMove);
 	console.log('');
+	var row = AI.optimalMove[0];
+	var col = AI.optimalMove[1];
+
+	var $row = $('.row[data-row="' + row + '"]');
+	var $cell = $row.children('.cell[data-col="' + col + '"]');
+	// console.log(cell);
+
+	app.currentTurn = app.switchMove();
+	app.makeMove.bind($cell[0])();
 };
 

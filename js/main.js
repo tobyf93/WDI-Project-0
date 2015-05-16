@@ -214,7 +214,6 @@ app.makeMove = function() {
 	// If 1 player game and player has made move, call the computer to make
 	// its move.
 	if (app.enableAI && app.currentTurn === app.PLAYER) {
-		app.currentTurn = app.switchMove();
 		setTimeout(AI.makeMove, 0);
 	} 
 	// Otherwise pass currentTurn over to other player
@@ -235,7 +234,7 @@ $(document).ready(function() {
 
 	app.initialize();
 	// app.testCase1();
-	app.testCase2();
+	// app.testCase2();
 });
 
 
