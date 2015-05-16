@@ -1,5 +1,5 @@
 var app = app || {};
-app.enableAI = false;
+app.enableAI = true;
 
 app.initialize = function() {
 	app.PLAYER = 'X';
@@ -56,6 +56,7 @@ app.complete.cache = [];  //Needs to be implemented a better way.
 
 // Returns true if row is complete
 app.complete.row = function(row, player) {
+	if (row === undefined)debugger;
 	for (var i = 0; i < row.length; i++) {
 		if (row[i] !== player) {
 			return false;
@@ -120,20 +121,15 @@ app.complete.diag = function(board, coordStr, player) {
 
 // Checks game board for a win/draw/loss situation.  lastMove is passed into
 // the function to ensure the check is made with max efficiency.
-app._checkGameState = function(board, player, lastMove, options) {
+app.checkGameState = function(board, player, lastMove) {
 	// Win = 10
 	// Draw = 0
 	// Undefined = -1
 	// Loss = -10
-	var moves = this.moves;
 	this.complete.cache = [];
 
-	if (options) {
-		moves = options.moves || move;
-	}
-
 	// Tie
-	if (moves.X + moves.O === 9) {
+	if (this.moves.X + this.moves.O === 9) {
 		return 0;
 	}
 
@@ -163,39 +159,6 @@ app._checkGameState = function(board, player, lastMove, options) {
 	}
 
 	return -1;
-};
-
-
-//////////////////////////
-// Needs attention!!!
-//////////////////////////
-// I think this would be better off in AI.checkGameState.  It should work with original
-// app.checkGameState i.e. it shouldn't pass it any option object.  It should check 
-// for a draw itself before passing it the app.checkGame state to check for win/loss/undefined.
-app.checkGameState = function(board, player, lastMove) {
-	var oppositePlayer = app.switchMove(player);
-
-	// If no lastMove is passed we cannot optimize the check.  We have to check
-	// the entire board.
-	if (lastMove === undefined) {
-		var result = -1;
-		['00', '11', '22'].forEach(function(coordStr) {
-			var row = coordStr[0];
-			var col = coordStr[1];
-			lastMove = {row: row, col: col};
-			var playerResult = app._checkGameState(board, player, lastMove);
-			var opponentResult = app._checkGameState(board, oppositePlayer, lastMove);
-
-			if (opponentResult === 10) {
-				result = -10;
-			} else if (result !== -10 && playerResult > result) {
-				result = playerResult;
-			}
-		});
-		return result;
-	}
-
-	return app._checkGameState(board, player, lastMove);
 };
 
 app.switchMove = function(move) {

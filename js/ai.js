@@ -6,6 +6,28 @@ AI.optimalMove = undefined;
 AI.scores = undefined;
 AI.moves = undefined;
 
+
+AI.checkGameState = function(board, player) {
+	var oppositePlayer = app.switchMove(player);
+
+	var result = -1;
+	['00', '11', '22'].forEach(function(coordStr) {
+		var row = coordStr[0];
+		var col = coordStr[1];
+		var lastMove = {row: row, col: col};
+		var playerResult = app.checkGameState(board, player, lastMove);
+		var opponentResult = app.checkGameState(board, oppositePlayer, lastMove);
+
+		if (opponentResult === 10) {
+			result = -10;
+		} else if (result !== -10 && playerResult > result) {
+			result = playerResult;
+		}
+	});
+
+	return result;
+};
+
 AI.minmax = function(board, theoreticalTurn) {
 	var scores = [];
 	var moves = [];
@@ -15,7 +37,7 @@ AI.minmax = function(board, theoreticalTurn) {
 	// and picked the best move possible.
 	theoreticalTurn = theoreticalTurn || app.currentTurn;
 
-	var currentGameState = app.checkGameState(board, theoreticalTurn);
+	var currentGameState = AI.checkGameState(board, theoreticalTurn);
 	if (currentGameState !== -1) {
 		return currentGameState;
 	}
@@ -47,7 +69,7 @@ AI.minmax = function(board, theoreticalTurn) {
 	// debugger;
 	// If node has no children return the gamestate for the board.
 	if (!availableMoves.length) {
-		var gs = app.checkGameState(board, app.currentTurn);
+		var gs = AI.checkGameState(board, app.currentTurn);
 		returnVal = gs;
 	}
 	// Otherwise analyse the scores that the nodes children pushed up to them
@@ -109,11 +131,17 @@ AI.getAvailableMoves = function(board) {
 };
 
 AI.makeMove = function() {
-	var $moves = $('.cell:empty');
-	var availableMoves = $moves.length;
-	var idx = Math.random() * (availableMoves - 1);
-	idx = Math.round(idx);
+	// var $moves = $('.cell:empty');
+	// var availableMoves = $moves.length;
+	// var idx = Math.random() * (availableMoves - 1);
+	// idx = Math.round(idx);
 
-	app.makeMove.bind($moves[idx])();
+	// app.makeMove.bind($moves[idx])();
+
+	AI.minmax(app.board);
+	console.log(AI.scores);
+	console.log(AI.moves);
+	console.log(AI.optimalMove);
+	console.log('');
 };
 
