@@ -1,16 +1,9 @@
-# WDI-Project-0
-## Installation Instructions:
-Click the link.
-
 ## Implemented Features:
 + Player vs Player
 + Game Over Animations and Restart
-+ Player vs AI (difficulty: 'easy')
-+ AI solution tree compiled[1]
-+ Player vs AI (difficulty: 'impossible') [1]
++ AI solution tree
++ Player vs AI (unbeatable)
 + Board modelled in javascript using a 2D array
-
-[1] Not enabled
 
 ## Code Structure:
 + App Object
@@ -31,7 +24,8 @@ Click the link.
 
 ## What's next
 + AI
-  + Getting full tree lookup working
   + Limit tree lookup depth to be used as a difficulty level
-+ CSS styling which wasn't given any attention until day of presentation...
++ CSS styling
++ Animations
 + Clean up code (there were a few hacks introduced in the later stages)
++ Responsive design
